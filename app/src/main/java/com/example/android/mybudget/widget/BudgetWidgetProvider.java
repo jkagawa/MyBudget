@@ -14,6 +14,13 @@ import com.example.android.mybudget.R;
 import com.example.android.mybudget.R2;
 import com.example.android.mybudget.data.BudgetContract;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import butterknife.BindView;
 
 
@@ -47,6 +54,39 @@ public class BudgetWidgetProvider extends AppWidgetProvider {
 
         Cursor mCursor = getBudget(context);
 
+        List<String> expenseList = new ArrayList<>();
+        List<String> expenseDateList = new ArrayList<>();
+
+        Cursor mCursorExpense = getAllExpenses(context);
+        double totalExpenseForMonth = 0;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
+
+        if(mCursorExpense != null) {
+            mCursorExpense.moveToFirst();
+
+            for(int i=0; i<mCursorExpense.getCount(); i++) {
+                String expense = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
+                String expenseDate = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
+                expenseList.add(expense);
+                expenseDateList.add(expenseDate);
+                try {
+                    Date date = Calendar.getInstance().getTime();
+                    Date date2 = format.parse(expenseDate);
+                    String CurrentMonth = formatToDigit.format(date);
+                    String formattedMonth = formatToDigit.format(date2);
+
+                    if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
+                        totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mCursorExpense.moveToNext();
+            }
+            //mCursor.close();
+        }
 
 
         for (int i = 0; i < count; i++) {
@@ -59,7 +99,12 @@ public class BudgetWidgetProvider extends AppWidgetProvider {
 
                     String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
 
-                    String value = context.getResources().getString(R.string.currency_value, budget);
+                    budget = String.valueOf(Double.parseDouble(budget) - totalExpenseForMonth);
+
+                    double remBudgetNumber = Double.parseDouble(budget);
+                    String remBudgetString = String.format("%.2f", remBudgetNumber);
+
+                    String value = context.getResources().getString(R.string.currency_value, remBudgetString);
 //                    mBudget.setText(value);
                     remoteViews.setTextViewText(R.id.widget_budget, value);
                     //mCursor.close();
@@ -98,6 +143,15 @@ public class BudgetWidgetProvider extends AppWidgetProvider {
                 null,
                 BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
 
+    }
+
+    private Cursor getAllExpenses(Context context) {
+
+        return context.getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
+                null,
+                null,
+                null,
+                BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
     }
 
 }

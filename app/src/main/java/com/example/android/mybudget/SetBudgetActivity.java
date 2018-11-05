@@ -103,7 +103,7 @@ public class SetBudgetActivity extends AppCompatActivity {
 
 //            Toast.makeText(getBaseContext(), String.valueOf(cursor.getCount()), Toast.LENGTH_LONG).show();
 
-            Toast.makeText(getBaseContext(), "Budget set to " + "$" + mBudget, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getBaseContext(), "Budget set to " + "$" + mBudget, Toast.LENGTH_LONG).show();
         }
 
         finish();
