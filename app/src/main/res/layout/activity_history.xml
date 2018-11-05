@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_history"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.mybudget.MainActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_history_expense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+
+
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/container_history"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="com.example.android.mybudget.MainActivity"-->
+    <!--android:orientation="vertical" >-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/recyclerview_history_expense"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab_edit_expense"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_margin="@dimen/activity_default_margin"-->
+        <!--app:srcCompat="@drawable/ic_edit_white_24dp"-->
+        <!--app:backgroundTint="@color/colorAccent"-->
+        <!--app:layout_anchorGravity="bottom|right|end"-->
+        <!--android:contentDescription="@string/action_add_expense"-->
+
+        <!--android:layout_alignRight="@+id/recyclerview_history_expense"-->
+        <!--android:layout_alignEnd="@+id/recyclerview_history_expense"/>-->
+
+    <!--&lt;!&ndash;android:layout_above="parent"&ndash;&gt;-->
+
+<!--</RelativeLayout>-->

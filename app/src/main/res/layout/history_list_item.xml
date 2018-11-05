@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/history_expense_vertical_margin">
+
+<!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/constraint_layout_list_steps"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="3dp">-->
+
+    <TextView
+        android:id="@+id/history_month_header"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/month_year"
+        android:textStyle="bold"
+        android:textSize="@dimen/expense_header_text_size"
+        android:layout_margin="@dimen/history_expense_item_margin"
+        android:visibility="gone"
+        android:clickable="false"
+        android:focusable="false"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:clickable="false"
+        android:focusable="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/history_expense_item_margin"
+        android:id="@+id/history_expense_group">
+
+        <TextView
+            android:id="@+id/history_expense_item"
+            android:gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/expense_item"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/history_expense_item_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/history_expense_item_date"
+            android:gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/expense_date"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+<!--</android.support.constraint.ConstraintLayout>-->
+</LinearLayout>

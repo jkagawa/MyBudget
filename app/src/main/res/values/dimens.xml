@@ -1,0 +1,25 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_default_margin">32dp</dimen>
+    <dimen name="activity_default_padding">15dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">100dp</dimen>
+
+    <dimen name="budget_text_size">30sp</dimen>
+    <dimen name="budget_subtitle_text_size">16sp</dimen>
+    <dimen name="button_horizontal_margin">64dp</dimen>
+    <dimen name="button_veritcal_margin">16dp</dimen>
+
+    <dimen name="budget_text_padding">10dp</dimen>
+
+    <dimen name="expense_text_size">24sp</dimen>
+
+    <dimen name="expense_header_text_size">20sp</dimen>
+
+    <dimen name="greeting_text_size">16sp</dimen>
+
+    <dimen name="history_expense_vertical_margin">8dp</dimen>
+    <dimen name="history_expense_item_margin">4dp</dimen>
+
+</resources>

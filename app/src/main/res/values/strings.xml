@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">My Budget</string>
+    <string name="main_budget">Click Here To Set Your Budget</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="text_remaining_budget">Remaining Budget</string>
+
+    <string name="action_add_expense">Add expense</string>
+    <string name="menu_history">History</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <string name="expense_item">Expense item</string>
+    <string name="expense_date">Expense date</string>
+
+    <string name="currency_value">$%1$s</string>
+
+    <string name="greeting">Hello, %1$s</string>
+
+    <string name="sign_out">Sign Out</string>
+
+    <string name="month_year">Month and Year</string>
+
+    <string name="set_budget">Set Budget</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="done">Done</string>
+
+    <string name="hint_enter_budget">Enter Budget</string>
+    <string name="hint_enter_expense">Enter Expense</string>
+    <string name="hint_edit_expense">Edit Expense</string>
+
+</resources>
