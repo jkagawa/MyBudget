@@ -1,7 +1,10 @@
 package com.example.android.mybudget;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -16,11 +22,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.android.mybudget.data.BudgetContract;
 import com.example.android.mybudget.data.ExpenseDBHelper;
+import com.example.android.mybudget.widget.BudgetWidgetProvider;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +45,7 @@ import butterknife.ButterKnife;
  * Created by Joshua on 10/2/2018.
  */
 
-public class EditExpenseActivity extends AppCompatActivity {
+public class EditExpenseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R2.id.edit_expense) EditText mEditExpense;
     @BindView(R2.id.button_confirm_expense) Button mConfirmExpense;
@@ -61,16 +75,18 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         if(extras != null) {
             mExpenseID = intentFromHistoryActivity.getStringExtra(HistoryActivity.EXTRA_EXPENSE_ID_KEY);
-            mCursor = getExpenseByID();
 
-            mCursor.moveToFirst();
-
-            String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-
-            double expenseNumber = Double.parseDouble(expense);
-            String expenseString = String.format("%.2f", expenseNumber);
-
-            mEditExpense.setText(expenseString);
+            getSupportLoaderManager().initLoader(MainActivity.GET_EXPENSES_LOADER, null,this);
+//            mCursor = getExpenseByID();
+//
+//            mCursor.moveToFirst();
+//
+//            String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
+//
+//            double expenseNumber = Double.parseDouble(expense);
+//            String expenseString = String.format("%.2f", expenseNumber);
+//
+//            mEditExpense.setText(expenseString);
         }
 
 //        mEditExpense.setFilters(new InputFilter[] {new EditExpenseActivity.DecimalDigitsInputFilter(7,2)});
@@ -133,14 +149,14 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     }
 
-    private Cursor getExpenseByID() {
-
-        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-                null,
-                HistoryActivity.DB_EXPENSE_ID_COL +" = "+ mExpenseID,
-                null,
-                null);
-    }
+//    private Cursor getExpenseByID() {
+//
+//        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
+//                null,
+//                HistoryActivity.DB_EXPENSE_ID_COL +" = "+ mExpenseID,
+//                null,
+//                null);
+//    }
 
     private boolean deleteExpense() {
 
@@ -187,6 +203,57 @@ public class EditExpenseActivity extends AppCompatActivity {
             else
                 return "";
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, Bundle args) {
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public Cursor loadInBackground() {
+
+                if (id == MainActivity.GET_EXPENSES_LOADER) {
+                    return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
+                            null,
+                            HistoryActivity.DB_EXPENSE_ID_COL +" = "+ mExpenseID,
+                            null,
+                            null);
+                }
+
+                return null;
+            }
+        };
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        int id = loader.getId();
+        if(id == MainActivity.GET_EXPENSES_LOADER) {
+            mCursor = cursor;
+
+            mCursor.moveToFirst();
+
+            String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
+
+            double expenseNumber = Double.parseDouble(expense);
+            String expenseString = String.format("%.2f", expenseNumber);
+
+            mEditExpense.setText(expenseString);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
 }

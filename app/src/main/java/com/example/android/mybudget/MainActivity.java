@@ -1,9 +1,16 @@
 package com.example.android.mybudget;
 
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+//import android.app.LoaderManager;
 import android.appwidget.AppWidgetManager;
+//import android.content.AsyncTaskLoader;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+//import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +62,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private TextView mTextMessage;
     @BindView(R2.id.budget) TextView mBudget;
@@ -75,6 +83,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth mAuth;
     GoogleSignInAccount mAccount;
+
+//    private static final String GET_BUDGET_EXTRA = "get_budget";
+//    private static final String GET_EXPENSES_EXTRA = "get_expenses";
+//
+//    private static final String GET_BUDGET_LOADER = "get_expenses";
+//    private static final String GET_EXPENSES_LOADER = "get_expenses";
+
+    public static final int GET_BUDGET_LOADER = 101;
+    public static final int GET_EXPENSES_LOADER = 102;
 
 //    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
 //            = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -107,7 +124,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BudgetDBHelper dbHelper = new BudgetDBHelper(this);
         mDatabase = dbHelper.getWritableDatabase();
 
-        setBudget();
+
+        getSupportLoaderManager().initLoader(GET_BUDGET_LOADER, null,this);
+//        if(!getLoaderManager().getLoader(GET_BUDGET_LOADER).isReset()) {
+//            getLoaderManager().restartLoader(GET_BUDGET_LOADER, null, this);
+//        }
+        getSupportLoaderManager().initLoader(GET_EXPENSES_LOADER, null,this);
+//        if(!getLoaderManager().getLoader(GET_EXPENSES_LOADER).isReset()) {
+//            getLoaderManager().restartLoader(GET_EXPENSES_LOADER, null, this);
+//        }
+
+//        setBudget();
+
+//        Toast.makeText(getBaseContext(), "onCreate", Toast.LENGTH_LONG).show();
+
+//        Bundle dbBundle = new Bundle();
+//        dbBundle.putString(GET_BUDGET_EXTRA, GET_BUDGET_LOADER);
+//        dbBundle.putString(GET_EXPENSES_EXTRA, GET_EXPENSES_LOADER);
+//
+//        LoaderManager loaderManager = getSupportLoaderManager();
+//        Loader<Cursor> dbLoader = loaderManager.getLoader(DB_LOADER);
+//
+//        if(dbLoader == null) {
+//            loaderManager.initLoader(DB_LOADER, dbBundle, this);
+//        } else {
+//            loaderManager.restartLoader(DB_LOADER, dbBundle, this);
+//        }
+
 
         mTextMessage = (TextView) findViewById(R.id.message);
 //        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -119,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent SetBudgetIntent = new Intent(MainActivity.this, SetBudgetActivity.class);
                 startActivity(SetBudgetIntent);
 
+                MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             }
         });
 
@@ -127,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view) {
                 Intent AddExpenseIntent = new Intent(MainActivity.this, AddExpenseActivity.class);
                 startActivity(AddExpenseIntent);
+
+                MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -178,108 +225,118 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
             startActivity(historyIntent);
 
+            MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void setBudget() {
+//    private void setBudget() {
 
-        mCursor = getBudget();
+//        Toast.makeText(getBaseContext(), "setBudget", Toast.LENGTH_LONG).show();
+//
+////        mCursor = getBudget();
+//
+//
+//        List<String> expenseList = new ArrayList<>();
+//        List<String> expenseDateList = new ArrayList<>();
+//
+////        mCursorExpense = getAllExpenses();
+//
+//        double totalExpenseForMonth = 0;
+//
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
+//
+//        if(mCursorExpense != null) {
+//            mCursorExpense.moveToFirst();
+//
+//            for(int i=0; i<mCursorExpense.getCount(); i++) {
+//                String expense = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
+//                String expenseDate = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
+//                expenseList.add(expense);
+//                expenseDateList.add(expenseDate);
+//
+//                try {
+//                    Date date = Calendar.getInstance().getTime();
+//                    Date date2 = format.parse(expenseDate);
+////                    Date date2 = formatToDigit.parse(expenseDate);
+//
+//                    String CurrentMonth = formatToDigit.format(date);
+//                    String formattedMonth = formatToDigit.format(date2);
+////                    Toast.makeText(getBaseContext(), String.valueOf(date), Toast.LENGTH_LONG).show();
+//                    if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
+//                        totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
+//                    }
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                mCursorExpense.moveToNext();
+//
+//            }
+//
+//
+//            //mCursor.close();
+//        }
+//
+////        Toast.makeText(getBaseContext(), String.valueOf(totalExpenseForMonth), Toast.LENGTH_LONG).show();
+//
+//        if(mCursor != null) {
+//            if(mCursor.moveToLast()) {
+//
+//                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
+//                budget = String.valueOf(Double.parseDouble(budget) - totalExpenseForMonth);
+//
+//
+//                double remBudgetNumber = Double.parseDouble(budget);
+//                String remBudgetString = String.format("%.2f", remBudgetNumber);
+//
+//                String value = getResources().getString(R.string.currency_value, remBudgetString);
+//
+//                mBudget.setText(value);
+//
+//                Context context = this;
+//                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+//                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_budget);
+//                ComponentName thisWidget = new ComponentName(context, BudgetWidgetProvider.class);
+//                remoteViews.setTextViewText(R.id.widget_budget, value);
+//                appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+//                //mCursor.close();
+//
+//            }
+//
+//        }
 
-        List<String> expenseList = new ArrayList<>();
-        List<String> expenseDateList = new ArrayList<>();
+//    }
 
-        mCursorExpense = getAllExpenses();
-        double totalExpenseForMonth = 0;
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
-
-        if(mCursorExpense != null) {
-            mCursorExpense.moveToFirst();
-
-            for(int i=0; i<mCursorExpense.getCount(); i++) {
-                String expense = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-                String expenseDate = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
-                expenseList.add(expense);
-                expenseDateList.add(expenseDate);
-
-                try {
-                    Date date = Calendar.getInstance().getTime();
-                    Date date2 = format.parse(expenseDate);
-//                    Date date2 = formatToDigit.parse(expenseDate);
-
-                    String CurrentMonth = formatToDigit.format(date);
-                    String formattedMonth = formatToDigit.format(date2);
-//                    Toast.makeText(getBaseContext(), String.valueOf(date), Toast.LENGTH_LONG).show();
-                    if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
-                        totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                mCursorExpense.moveToNext();
-
-            }
-
-
-            //mCursor.close();
-        }
-
-//        Toast.makeText(getBaseContext(), String.valueOf(totalExpenseForMonth), Toast.LENGTH_LONG).show();
-
-        if(mCursor != null) {
-            if(mCursor.moveToLast()) {
-
-                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
-                budget = String.valueOf(Double.parseDouble(budget) - totalExpenseForMonth);
-
-                double remBudgetNumber = Double.parseDouble(budget);
-                String remBudgetString = String.format("%.2f", remBudgetNumber);
-
-                String value = getResources().getString(R.string.currency_value, remBudgetString);
-
-                mBudget.setText(value);
-
-                Context context = this;
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_budget);
-                ComponentName thisWidget = new ComponentName(context, BudgetWidgetProvider.class);
-                remoteViews.setTextViewText(R.id.widget_budget, value);
-                appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-                //mCursor.close();
-
-            }
-
-        }
-
-    }
-
-    private Cursor getBudget() {
-
-        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
-                null,
-                null,
-                null,
-                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
-
-    }
-
-    private Cursor getAllExpenses() {
-
-        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-                null,
-                null,
-                null,
-                BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
-    }
+//    private Cursor getBudget() {
+//
+//        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
+//                null,
+//                null,
+//                null,
+//                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
+//
+//    }
+//
+//    private Cursor getAllExpenses() {
+//
+//        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
+//                null,
+//                null,
+//                null,
+//                BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
+//    }
 
     @Override
     protected void onRestart() {
-        setBudget();
+//        Toast.makeText(getBaseContext(), "onRestart", Toast.LENGTH_LONG).show();
+        getSupportLoaderManager().initLoader(GET_BUDGET_LOADER, null,this);
+        getSupportLoaderManager().initLoader(GET_EXPENSES_LOADER, null,this);
+//        setBudget();
         super.onRestart();
     }
 
@@ -418,5 +475,128 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, Bundle args) {
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public Cursor loadInBackground() {
+
+                if (id == GET_BUDGET_LOADER) {
+
+                    return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
+                            null,
+                            null,
+                            null,
+                            BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
+                }
+                else if (id == GET_EXPENSES_LOADER) {
+                    return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
+                            null,
+                            null,
+                            null,
+                            BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
+                }
+
+                return null;
+            }
+         };
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        int id = loader.getId();
+        if(id == GET_BUDGET_LOADER) {
+            mCursor = cursor;
+
+        }
+        if(id == GET_EXPENSES_LOADER) {
+            mCursorExpense = cursor;
+        }
+
+        List<String> expenseList = new ArrayList<>();
+        List<String> expenseDateList = new ArrayList<>();
+
+//        mCursorExpense = getAllExpenses();
+
+        double totalExpenseForMonth = 0;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
+
+        if(mCursorExpense != null) {
+            mCursorExpense.moveToFirst();
+
+            for(int i=0; i<mCursorExpense.getCount(); i++) {
+                String expense = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
+                String expenseDate = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
+                expenseList.add(expense);
+                expenseDateList.add(expenseDate);
+
+                try {
+                    Date date = Calendar.getInstance().getTime();
+                    Date date2 = format.parse(expenseDate);
+//                    Date date2 = formatToDigit.parse(expenseDate);
+
+                    String CurrentMonth = formatToDigit.format(date);
+                    String formattedMonth = formatToDigit.format(date2);
+//                    Toast.makeText(getBaseContext(), String.valueOf(date), Toast.LENGTH_LONG).show();
+                    if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
+                        totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                mCursorExpense.moveToNext();
+
+            }
+
+
+            //mCursor.close();
+        }
+
+//        Toast.makeText(getBaseContext(), String.valueOf(totalExpenseForMonth), Toast.LENGTH_LONG).show();
+
+        if(mCursor != null) {
+            if(mCursor.moveToLast()) {
+
+                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
+                budget = String.valueOf(Double.parseDouble(budget) - totalExpenseForMonth);
+
+
+                double remBudgetNumber = Double.parseDouble(budget);
+                String remBudgetString = String.format("%.2f", remBudgetNumber);
+
+                String value = getResources().getString(R.string.currency_value, remBudgetString);
+
+                mBudget.setText(value);
+
+                Context context = this;
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_budget);
+                ComponentName thisWidget = new ComponentName(context, BudgetWidgetProvider.class);
+                remoteViews.setTextViewText(R.id.widget_budget, value);
+                appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+                //mCursor.close();
+
+            }
+
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

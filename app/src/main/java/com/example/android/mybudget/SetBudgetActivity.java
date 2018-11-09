@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -32,7 +35,7 @@ import butterknife.ButterKnife;
  * Created by Joshua on 10/2/2018.
  */
 
-public class SetBudgetActivity extends AppCompatActivity {
+public class SetBudgetActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R2.id.enter_budget) TextView mEnterBudget;
 
@@ -53,23 +56,25 @@ public class SetBudgetActivity extends AppCompatActivity {
 
         mEnterBudget.setFilters(new InputFilter[] {new SetBudgetActivity.DecimalDigitsInputFilter(7,2)});
 
-        mCursor = getBudget();
+        getSupportLoaderManager().initLoader(MainActivity.GET_BUDGET_LOADER, null,this);
 
-        if(mCursor != null) {
-            if(mCursor.moveToLast()) {
-
-                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
-
-                double budgetNumber = Double.parseDouble(budget);
-                String budgetString = String.format("%.2f", budgetNumber);
-
-                mEnterBudget.setText(budgetString);
-
-                //mCursor.close();
-
-            }
-
-        }
+//        mCursor = getBudget();
+//
+//        if(mCursor != null) {
+//            if(mCursor.moveToLast()) {
+//
+//                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
+//
+//                double budgetNumber = Double.parseDouble(budget);
+//                String budgetString = String.format("%.2f", budgetNumber);
+//
+//                mEnterBudget.setText(budgetString);
+//
+//                //mCursor.close();
+//
+//            }
+//
+//        }
     }
 
     public void setBudget(View view) {
@@ -110,15 +115,15 @@ public class SetBudgetActivity extends AppCompatActivity {
 
     }
 
-    private Cursor getBudget() {
-
-        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
-                null,
-                null,
-                null,
-                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
-
-    }
+//    private Cursor getBudget() {
+//
+//        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
+//                null,
+//                null,
+//                null,
+//                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
+//
+//    }
 
     public class DecimalDigitsInputFilter implements InputFilter {
         private int mDigitsBeforeZero;
@@ -149,5 +154,64 @@ public class SetBudgetActivity extends AppCompatActivity {
             else
                 return "";
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, Bundle args) {
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public Cursor loadInBackground() {
+
+                if (id == MainActivity.GET_BUDGET_LOADER) {
+
+                    return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
+                            null,
+                            null,
+                            null,
+                            BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
+                }
+
+                return null;
+            }
+        };
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        int id = loader.getId();
+        if(id == MainActivity.GET_BUDGET_LOADER) {
+            mCursor = cursor;
+
+            if(mCursor != null) {
+                if(mCursor.moveToLast()) {
+
+                    String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
+
+                    double budgetNumber = Double.parseDouble(budget);
+                    String budgetString = String.format("%.2f", budgetNumber);
+
+                    mEnterBudget.setText(budgetString);
+
+                    //mCursor.close();
+
+                }
+
+            }
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }
