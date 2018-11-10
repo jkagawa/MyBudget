@@ -58,23 +58,6 @@ public class SetBudgetActivity extends AppCompatActivity implements LoaderManage
 
         getSupportLoaderManager().initLoader(MainActivity.GET_BUDGET_LOADER, null,this);
 
-//        mCursor = getBudget();
-//
-//        if(mCursor != null) {
-//            if(mCursor.moveToLast()) {
-//
-//                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
-//
-//                double budgetNumber = Double.parseDouble(budget);
-//                String budgetString = String.format("%.2f", budgetNumber);
-//
-//                mEnterBudget.setText(budgetString);
-//
-//                //mCursor.close();
-//
-//            }
-//
-//        }
     }
 
     public void setBudget(View view) {
@@ -84,19 +67,14 @@ public class SetBudgetActivity extends AppCompatActivity implements LoaderManage
         String enterBudget = mEnterBudget.getText().toString();
 
         if (!enterBudget.matches("")) {
-//            mExpense = 0;
+
             mBudget = Double.parseDouble(mEnterBudget.getText().toString());
 
         }
 
         if(mBudget > 0) {
 
-//        if(cursor.getCount() <=0) {
-
-
             contentValues.put(BudgetContract.BudgetEntry.COLUMN_BUDGET, mBudget);
-//            contentValues.put(BudgetContract.ExpenseEntry.COLUMN_BUDGET, mExpense);
-//        }
 
             Uri uri = getContentResolver().insert(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET, contentValues);
 
@@ -106,24 +84,11 @@ public class SetBudgetActivity extends AppCompatActivity implements LoaderManage
                     null,
                     null);
 
-//            Toast.makeText(getBaseContext(), String.valueOf(cursor.getCount()), Toast.LENGTH_LONG).show();
-
-//            Toast.makeText(getBaseContext(), "Budget set to " + "$" + mBudget, Toast.LENGTH_LONG).show();
         }
 
         finish();
 
     }
-
-//    private Cursor getBudget() {
-//
-//        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
-//                null,
-//                null,
-//                null,
-//                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
-//
-//    }
 
     public class DecimalDigitsInputFilter implements InputFilter {
         private int mDigitsBeforeZero;

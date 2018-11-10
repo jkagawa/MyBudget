@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 public class AddExpenseActivity extends AppCompatActivity {
 
     @BindView(R2.id.enter_expense) EditText mEnterExpense;
-//    @BindView(R2.id.button_add_expense) Button mAddExpense;
 
     public double mExpense;
 
@@ -55,19 +54,14 @@ public class AddExpenseActivity extends AppCompatActivity {
         String enterExpense = mEnterExpense.getText().toString();
 
         if (!enterExpense.matches("")) {
-//            mExpense = 0;
+
             mExpense = Double.parseDouble(mEnterExpense.getText().toString());
 
         }
 
         if(mExpense > 0) {
 
-//        if(cursor.getCount() <=0) {
-
-
             contentValues.put(BudgetContract.ExpenseEntry.COLUMN_EXPENSE, mExpense);
-//            contentValues.put(BudgetContract.ExpenseEntry.COLUMN_BUDGET, mExpense);
-//        }
 
         Uri uri = getContentResolver().insert(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE, contentValues);
 
@@ -77,11 +71,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                     null,
                     null);
 
-//            Toast.makeText(getBaseContext(), String.valueOf(cursor.getCount()), Toast.LENGTH_LONG).show();
-
             String expenseString = String.format("%.2f", mExpense);
-
-//            Toast.makeText(getBaseContext(), "$" + expenseString + " added to your expenses", Toast.LENGTH_LONG).show();
 
         }
 

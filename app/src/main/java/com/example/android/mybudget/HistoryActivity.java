@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.HistoryAdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
-//    @BindView(R2.id.history_text) TextView mHistoryText;
     @BindView(R2.id.recyclerview_history_expense) RecyclerView mRecyclerView;
     private Cursor mCursor;
 
@@ -40,7 +39,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     public static List<String> mExpenseIDList = new ArrayList<>();
 
     private HistoryAdapter mHistoryAdapter;
-//    private RecyclerView mRecyclerView;
 
     private static final int NUMBER_OF_ITEMS = 100;
 
@@ -58,119 +56,9 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         ExpenseDBHelper dbHelper = new ExpenseDBHelper(this);
         mDatabase = dbHelper.getWritableDatabase();
 
-//        generateListOfExpenses();
-
         getSupportLoaderManager().initLoader(MainActivity.GET_EXPENSES_LOADER, null,this);
 
-//        mCursor = getAllExpenses();
-//        List<String> expenseList = new ArrayList<>();
-//        List<String> expenseDateList = new ArrayList<>();
-//        List<String> expenseIDList = new ArrayList<>();
-//
-//        if(mCursor != null) {
-//            mCursor.moveToFirst();
-//
-//            for(int i=0; i<mCursor.getCount(); i++) {
-//                String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-//                String expenseDate = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
-//                String expenseID = mCursor.getString(mCursor.getColumnIndex(DB_EXPENSE_ID_COL));
-//                expenseList.add(expense);
-//                expenseDateList.add(expenseDate);
-//                expenseIDList.add(expenseID);
-//
-//                mCursor.moveToNext();
-//
-//                //Log.i("Info", "voteAverageList size is " + voteAverageList.size());
-//            }
-//
-//            mExpenseList = expenseList;
-//            mExpenseDateList = expenseDateList;
-//
-//            Collections.reverse(expenseIDList);
-//            mExpenseIDList = expenseIDList;
-//
-//            //mCursor.close();
-//
-//        }
-//
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//
-//        mHistoryAdapter = new HistoryAdapter(NUMBER_OF_ITEMS, this);
-//
-//        mRecyclerView.setAdapter(mHistoryAdapter);
-//
-//        mHistoryAdapter.setData(mExpenseList, mExpenseDateList);
-
-//        Toast.makeText(this, String.valueOf(mExpenseList.size()), Toast.LENGTH_LONG).show();
-
     }
-
-//    private Cursor getAllExpenses() {
-//
-//        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-//                null,
-//                null,
-//                null,
-//                BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
-//
-//
-//
-//        /*return mDatabase.query(
-//                FavoriteContract.FavoriteEntry.TABLE_NAME_EXPENSE,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                FavoriteContract.FavoriteEntry.COLUMN_TIMESTAMP_EXPENSE
-//        );
-//        */
-//
-//
-//    }
-
-//    private void generateListOfExpenses() {
-//        mCursor = getAllExpenses();
-//        List<String> expenseList = new ArrayList<>();
-//        List<String> expenseDateList = new ArrayList<>();
-//        List<String> expenseIDList = new ArrayList<>();
-//
-//        if(mCursor != null) {
-//            mCursor.moveToFirst();
-//
-//            for(int i=0; i<mCursor.getCount(); i++) {
-//                String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-//                String expenseDate = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
-//                String expenseID = mCursor.getString(mCursor.getColumnIndex(DB_EXPENSE_ID_COL));
-//                expenseList.add(expense);
-//                expenseDateList.add(expenseDate);
-//                expenseIDList.add(expenseID);
-//
-//                mCursor.moveToNext();
-//
-//                //Log.i("Info", "voteAverageList size is " + voteAverageList.size());
-//            }
-//
-//            mExpenseList = expenseList;
-//            mExpenseDateList = expenseDateList;
-//
-//            Collections.reverse(expenseIDList);
-//            mExpenseIDList = expenseIDList;
-//
-//            //mCursor.close();
-//
-//        }
-//
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//
-//        mHistoryAdapter = new HistoryAdapter(NUMBER_OF_ITEMS, this);
-//
-//        mRecyclerView.setAdapter(mHistoryAdapter);
-//
-//        mHistoryAdapter.setData(mExpenseList, mExpenseDateList);
-//    }
 
     @Override
     public void onClick(int position) {
@@ -184,7 +72,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     @Override
     protected void onStart() {
         super.onStart();
-//        generateListOfExpenses();
         getSupportLoaderManager().initLoader(MainActivity.GET_EXPENSES_LOADER, null,this);
     }
 
@@ -239,7 +126,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
                     mCursor.moveToNext();
 
-                    //Log.i("Info", "voteAverageList size is " + voteAverageList.size());
                 }
 
                 mExpenseList = expenseList;

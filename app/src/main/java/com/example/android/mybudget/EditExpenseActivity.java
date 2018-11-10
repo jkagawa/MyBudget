@@ -77,19 +77,8 @@ public class EditExpenseActivity extends AppCompatActivity implements LoaderMana
             mExpenseID = intentFromHistoryActivity.getStringExtra(HistoryActivity.EXTRA_EXPENSE_ID_KEY);
 
             getSupportLoaderManager().initLoader(MainActivity.GET_EXPENSES_LOADER, null,this);
-//            mCursor = getExpenseByID();
-//
-//            mCursor.moveToFirst();
-//
-//            String expense = mCursor.getString(mCursor.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-//
-//            double expenseNumber = Double.parseDouble(expense);
-//            String expenseString = String.format("%.2f", expenseNumber);
-//
-//            mEditExpense.setText(expenseString);
-        }
 
-//        mEditExpense.setFilters(new InputFilter[] {new EditExpenseActivity.DecimalDigitsInputFilter(7,2)});
+        }
 
         mDeleteExpense.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,47 +105,10 @@ public class EditExpenseActivity extends AppCompatActivity implements LoaderMana
                 Toast.makeText(getBaseContext(), "Make sure that the expense is greater than $0", Toast.LENGTH_LONG).show();
             }
         }
-//        if (!enterExpense.matches("")) {
-////            mExpense = 0;
-//            mExpense = Double.parseDouble(mEnterExpense.getText().toString());
-//
-//        }
-//
-//        if(mExpense > 0) {
-//
-////        if(cursor.getCount() <=0) {
-//
-//
-//            contentValues.put(BudgetContract.ExpenseEntry.COLUMN_EXPENSE, mExpense);
-////            contentValues.put(BudgetContract.ExpenseEntry.COLUMN_BUDGET, mExpense);
-////        }
-//
-//        Uri uri = getContentResolver().insert(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE, contentValues);
-//
-//            Cursor cursor = getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-//                    null,
-//                    null,
-//                    null,
-//                    null);
-//
-////            Toast.makeText(getBaseContext(), String.valueOf(cursor.getCount()), Toast.LENGTH_LONG).show();
-//
-//            Toast.makeText(getBaseContext(), "$" + mExpense + " added to your expenses", Toast.LENGTH_LONG).show();
-//
-//        }
 
         finish();
 
     }
-
-//    private Cursor getExpenseByID() {
-//
-//        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-//                null,
-//                HistoryActivity.DB_EXPENSE_ID_COL +" = "+ mExpenseID,
-//                null,
-//                null);
-//    }
 
     private boolean deleteExpense() {
 

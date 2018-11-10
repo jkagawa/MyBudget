@@ -3,14 +3,11 @@ package com.example.android.mybudget;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-//import android.app.LoaderManager;
 import android.appwidget.AppWidgetManager;
-//import android.content.AsyncTaskLoader;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
-//import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -84,34 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     GoogleSignInAccount mAccount;
 
-//    private static final String GET_BUDGET_EXTRA = "get_budget";
-//    private static final String GET_EXPENSES_EXTRA = "get_expenses";
-//
-//    private static final String GET_BUDGET_LOADER = "get_expenses";
-//    private static final String GET_EXPENSES_LOADER = "get_expenses";
-
     public static final int GET_BUDGET_LOADER = 101;
     public static final int GET_EXPENSES_LOADER = 102;
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_dashboard);
-//                    return true;
-//                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,35 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         getSupportLoaderManager().initLoader(GET_BUDGET_LOADER, null,this);
-//        if(!getLoaderManager().getLoader(GET_BUDGET_LOADER).isReset()) {
-//            getLoaderManager().restartLoader(GET_BUDGET_LOADER, null, this);
-//        }
+
         getSupportLoaderManager().initLoader(GET_EXPENSES_LOADER, null,this);
-//        if(!getLoaderManager().getLoader(GET_EXPENSES_LOADER).isReset()) {
-//            getLoaderManager().restartLoader(GET_EXPENSES_LOADER, null, this);
-//        }
-
-//        setBudget();
-
-//        Toast.makeText(getBaseContext(), "onCreate", Toast.LENGTH_LONG).show();
-
-//        Bundle dbBundle = new Bundle();
-//        dbBundle.putString(GET_BUDGET_EXTRA, GET_BUDGET_LOADER);
-//        dbBundle.putString(GET_EXPENSES_EXTRA, GET_EXPENSES_LOADER);
-//
-//        LoaderManager loaderManager = getSupportLoaderManager();
-//        Loader<Cursor> dbLoader = loaderManager.getLoader(DB_LOADER);
-//
-//        if(dbLoader == null) {
-//            loaderManager.initLoader(DB_LOADER, dbBundle, this);
-//        } else {
-//            loaderManager.restartLoader(DB_LOADER, dbBundle, this);
-//        }
-
 
         mTextMessage = (TextView) findViewById(R.id.message);
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mBudget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,25 +131,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         mAdView.loadAd(adRequest);
 
-        //Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-//        Toast.makeText(getBaseContext(), getString(R.string.default_web_client_id), Toast.LENGTH_LONG).show();
-
-//         Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this, this)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-
         mAuth = FirebaseAuth.getInstance();
-
-//        mSignInButton.setOnClickListener(this);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out).setOnClickListener(this);
@@ -233,120 +168,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-//    private void setBudget() {
-
-//        Toast.makeText(getBaseContext(), "setBudget", Toast.LENGTH_LONG).show();
-//
-////        mCursor = getBudget();
-//
-//
-//        List<String> expenseList = new ArrayList<>();
-//        List<String> expenseDateList = new ArrayList<>();
-//
-////        mCursorExpense = getAllExpenses();
-//
-//        double totalExpenseForMonth = 0;
-//
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
-//
-//        if(mCursorExpense != null) {
-//            mCursorExpense.moveToFirst();
-//
-//            for(int i=0; i<mCursorExpense.getCount(); i++) {
-//                String expense = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_EXPENSE));
-//                String expenseDate = mCursorExpense.getString(mCursorExpense.getColumnIndex(BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE));
-//                expenseList.add(expense);
-//                expenseDateList.add(expenseDate);
-//
-//                try {
-//                    Date date = Calendar.getInstance().getTime();
-//                    Date date2 = format.parse(expenseDate);
-////                    Date date2 = formatToDigit.parse(expenseDate);
-//
-//                    String CurrentMonth = formatToDigit.format(date);
-//                    String formattedMonth = formatToDigit.format(date2);
-////                    Toast.makeText(getBaseContext(), String.valueOf(date), Toast.LENGTH_LONG).show();
-//                    if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
-//                        totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                mCursorExpense.moveToNext();
-//
-//            }
-//
-//
-//            //mCursor.close();
-//        }
-//
-////        Toast.makeText(getBaseContext(), String.valueOf(totalExpenseForMonth), Toast.LENGTH_LONG).show();
-//
-//        if(mCursor != null) {
-//            if(mCursor.moveToLast()) {
-//
-//                String budget = mCursor.getString(mCursor.getColumnIndex(BudgetContract.BudgetEntry.COLUMN_BUDGET));
-//                budget = String.valueOf(Double.parseDouble(budget) - totalExpenseForMonth);
-//
-//
-//                double remBudgetNumber = Double.parseDouble(budget);
-//                String remBudgetString = String.format("%.2f", remBudgetNumber);
-//
-//                String value = getResources().getString(R.string.currency_value, remBudgetString);
-//
-//                mBudget.setText(value);
-//
-//                Context context = this;
-//                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_budget);
-//                ComponentName thisWidget = new ComponentName(context, BudgetWidgetProvider.class);
-//                remoteViews.setTextViewText(R.id.widget_budget, value);
-//                appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-//                //mCursor.close();
-//
-//            }
-//
-//        }
-
-//    }
-
-//    private Cursor getBudget() {
-//
-//        return getContentResolver().query(BudgetContract.BudgetEntry.CONTENT_URI_BUDGET,
-//                null,
-//                null,
-//                null,
-//                BudgetContract.BudgetEntry.COLUMN_TIMESTAMP_BUDGET);
-//
-//    }
-//
-//    private Cursor getAllExpenses() {
-//
-//        return getContentResolver().query(BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE,
-//                null,
-//                null,
-//                null,
-//                BudgetContract.ExpenseEntry.COLUMN_TIMESTAMP_EXPENSE);
-//    }
-
     @Override
     protected void onRestart() {
-//        Toast.makeText(getBaseContext(), "onRestart", Toast.LENGTH_LONG).show();
         getSupportLoaderManager().initLoader(GET_BUDGET_LOADER, null,this);
         getSupportLoaderManager().initLoader(GET_EXPENSES_LOADER, null,this);
-//        setBudget();
         super.onRestart();
     }
 
     @Override
     protected void onStart() {
-
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(account);
-//
-//        super.onStart();
 
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -389,11 +219,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void signIn() {
-//        Toast.makeText(getBaseContext(), "Button clicked", Toast.LENGTH_LONG).show();
-//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-
-//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -408,12 +233,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-//        if (requestCode == RC_SIGN_IN) {
-//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            handleSignInResult(result);
-//        }
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -424,27 +243,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-//                Toast.makeText(getBaseContext(), "Google sign in failed", Toast.LENGTH_LONG).show();
-                // ...
             }
         }
 
     }
-
-//    private void handleSignInResult(GoogleSignInResult result) {
-//        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-//        if(result.isSuccess()) {
-//            mAccount = result.getSignInAccount();
-//
-//            mSignOutButton.setVisibility(View.VISIBLE);
-//            String name = getResources().getString(R.string.currency_value, mAccount.getDisplayName());
-//            mGreeting.setText(name);
-//            mGreeting.setVisibility(View.VISIBLE);
-//
-//            Toast.makeText(getBaseContext(), "Hello, " + mAccount.getDisplayName(), Toast.LENGTH_LONG).show();
-//
-//        }
-//    }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
@@ -527,8 +329,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List<String> expenseList = new ArrayList<>();
         List<String> expenseDateList = new ArrayList<>();
 
-//        mCursorExpense = getAllExpenses();
-
         double totalExpenseForMonth = 0;
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -546,11 +346,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     Date date = Calendar.getInstance().getTime();
                     Date date2 = format.parse(expenseDate);
-//                    Date date2 = formatToDigit.parse(expenseDate);
 
                     String CurrentMonth = formatToDigit.format(date);
                     String formattedMonth = formatToDigit.format(date2);
-//                    Toast.makeText(getBaseContext(), String.valueOf(date), Toast.LENGTH_LONG).show();
+
                     if(Integer.parseInt(formattedMonth) == Integer.parseInt(CurrentMonth)) {
                         totalExpenseForMonth = totalExpenseForMonth + Double.parseDouble(expense);
                     }
@@ -565,8 +364,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //mCursor.close();
         }
-
-//        Toast.makeText(getBaseContext(), String.valueOf(totalExpenseForMonth), Toast.LENGTH_LONG).show();
 
         if(mCursor != null) {
             if(mCursor.moveToLast()) {

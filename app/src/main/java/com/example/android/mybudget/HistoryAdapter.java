@@ -71,12 +71,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         String value = context.getResources().getString(R.string.currency_value, expenseString);
         holder.mExpenseItemView.setText(value);
 
-//        holder.mExpenseItemDateView.setText(mExpenseDateList.get(position));
-
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat format3 = new SimpleDateFormat("MMMM yyyy");
-
 
         try {
             Date date = format.parse(mExpenseDateList.get(position));
@@ -93,8 +89,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                 SimpleDateFormat formatToDigit = new SimpleDateFormat("MM");
                 Date dateDigit1 = formatToDigit.parse(String.valueOf(date));
                 Date dateDigit2 = formatToDigit.parse(String.valueOf(date2));
-//                String dateDigit1 = formatToDigit.format(date);
-//                String dateDigit2 = formatToDigit.format(date2);
+
                 if(dateDigit1 != dateDigit2) {
                     holder.mExpenseHeaderView.setText(formattedHeaderDate);
                     holder.mExpenseHeaderView.setVisibility(View.VISIBLE);
@@ -109,8 +104,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        Toast.makeText(context, String.valueOf(mExpenseList.size()), Toast.LENGTH_LONG).show();
 
     }
 
@@ -127,8 +120,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
     class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//        final ImageView posterView;
-//        final TextView ratingView;
         @BindView(R2.id.history_expense_item) TextView mExpenseItemView;
         @BindView(R2.id.history_expense_item_date) TextView mExpenseItemDateView;
         @BindView(R2.id.history_month_header) TextView mExpenseHeaderView;
@@ -137,8 +128,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-
-//            posterView = itemView.findViewById(R.id.history_expense_item);
 
             itemView.setOnClickListener(this);
 
