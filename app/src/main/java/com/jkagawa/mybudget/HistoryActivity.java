@@ -1,4 +1,4 @@
-package com.example.android.mybudget;
+package com.jkagawa.mybudget;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,8 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.mybudget.data.BudgetContract;
-import com.example.android.mybudget.data.ExpenseDBHelper;
+import com.jkagawa.mybudget.data.BudgetContract;
+import com.jkagawa.mybudget.data.ExpenseDBHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

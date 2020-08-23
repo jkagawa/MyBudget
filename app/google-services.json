@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:344984091492:android:ed885ac0d2f09a42",
         "android_client_info": {
-          "package_name": "com.example.android.mybudget"
+          "package_name": "com.jkagawa.mybudget"
         }
       },
       "oauth_client": [

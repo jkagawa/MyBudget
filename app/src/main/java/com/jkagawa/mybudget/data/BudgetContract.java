@@ -1,4 +1,4 @@
-package com.example.android.mybudget.data;
+package com.jkagawa.mybudget.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

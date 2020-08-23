@@ -1,4 +1,4 @@
-package com.example.android.mybudget;
+package com.jkagawa.mybudget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -21,9 +21,9 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.mybudget.data.BudgetContract;
-import com.example.android.mybudget.data.ExpenseDBHelper;
-import com.example.android.mybudget.widget.BudgetWidgetProvider;
+import com.jkagawa.mybudget.data.BudgetContract;
+import com.jkagawa.mybudget.data.ExpenseDBHelper;
+import com.jkagawa.mybudget.widget.BudgetWidgetProvider;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

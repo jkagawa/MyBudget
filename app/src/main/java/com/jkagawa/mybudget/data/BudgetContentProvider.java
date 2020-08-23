@@ -1,4 +1,4 @@
-package com.example.android.mybudget.data;
+package com.jkagawa.mybudget.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,10 +11,10 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.example.android.mybudget.data.BudgetContract.ExpenseEntry.TABLE_NAME_EXPENSE;
-import static com.example.android.mybudget.data.BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE;
-import static com.example.android.mybudget.data.BudgetContract.BudgetEntry.TABLE_NAME_BUDGET;
-import static com.example.android.mybudget.data.BudgetContract.BudgetEntry.CONTENT_URI_BUDGET;
+import static com.jkagawa.mybudget.data.BudgetContract.ExpenseEntry.TABLE_NAME_EXPENSE;
+import static com.jkagawa.mybudget.data.BudgetContract.ExpenseEntry.CONTENT_URI_EXPENSE;
+import static com.jkagawa.mybudget.data.BudgetContract.BudgetEntry.TABLE_NAME_BUDGET;
+import static com.jkagawa.mybudget.data.BudgetContract.BudgetEntry.CONTENT_URI_BUDGET;
 
 /**
  * Created by Joshua on 10/11/2018.

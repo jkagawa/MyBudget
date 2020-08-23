@@ -1,4 +1,4 @@
-package com.example.android.mybudget;
+package com.jkagawa.mybudget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

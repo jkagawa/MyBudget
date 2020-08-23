@@ -1,4 +1,4 @@
-package com.example.android.mybudget;
+package com.jkagawa.mybudget;
 
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -25,9 +25,9 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.mybudget.data.BudgetContract;
-import com.example.android.mybudget.data.BudgetDBHelper;
-import com.example.android.mybudget.widget.BudgetWidgetProvider;
+import com.jkagawa.mybudget.data.BudgetContract;
+import com.jkagawa.mybudget.data.BudgetDBHelper;
+import com.jkagawa.mybudget.widget.BudgetWidgetProvider;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateUI(FirebaseUser currentUser) {
         if(currentUser!=null) {
-            mSignInButton.setVisibility(View.INVISIBLE);
+            mSignInButton.setVisibility(View.GONE);
 
             mSignOutButton.setVisibility(View.VISIBLE);
 

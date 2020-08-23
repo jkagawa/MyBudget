@@ -1,4 +1,4 @@
-package com.example.android.mybudget.data;
+package com.jkagawa.mybudget.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

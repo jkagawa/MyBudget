@@ -8,11 +8,11 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "com.example.android.mybudget"
+        applicationId "com.jkagawa.mybudget"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

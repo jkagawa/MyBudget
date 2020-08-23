@@ -1,4 +1,4 @@
-package com.example.android.mybudget;
+package com.jkagawa.mybudget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -25,9 +25,9 @@ import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.example.android.mybudget.data.BudgetContract;
-import com.example.android.mybudget.data.ExpenseDBHelper;
-import com.example.android.mybudget.widget.BudgetWidgetProvider;
+import com.jkagawa.mybudget.data.BudgetContract;
+import com.jkagawa.mybudget.data.ExpenseDBHelper;
+import com.jkagawa.mybudget.widget.BudgetWidgetProvider;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

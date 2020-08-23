@@ -1,4 +1,4 @@
-package com.example.android.mybudget.widget;
+package com.jkagawa.mybudget.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -9,10 +9,10 @@ import android.database.Cursor;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.example.android.mybudget.MainActivity;
-import com.example.android.mybudget.R;
-import com.example.android.mybudget.R2;
-import com.example.android.mybudget.data.BudgetContract;
+import com.jkagawa.mybudget.MainActivity;
+import com.jkagawa.mybudget.R;
+import com.jkagawa.mybudget.R2;
+import com.jkagawa.mybudget.data.BudgetContract;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
